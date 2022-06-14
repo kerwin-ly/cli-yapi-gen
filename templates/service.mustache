@@ -1,13 +1,22 @@
-/* eslint:disable */
+/* tslint:disable */
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { ICommonResponse } from '../strict-http-response';
-import { $http } from '@utils';
-import { AxiosResponse } from 'axios';
+import { ApiBaseService } from '../base-service';
 
 {{#serviceModels}}import { {{#modelClasses}}{{modelClass}}{{^modelClassIsLast}}, {{/modelClassIsLast}}{{/modelClasses}} } from '../models/{{modelFile}}';
 {{/serviceModels}}
-{{{serviceComments}}}
-
+{{{serviceComments}}}@Injectable({
+  providedIn: 'root',
+})
+export class {{serviceClass}} extends ApiBaseService {
+{{#serviceOperations}}{{/serviceOperations}}
+  constructor(protected http: HttpClient) {
+    super(http);
+  }
 {{#serviceOperations}}{{>operationBody}}{{/serviceOperations}}
+}
 
 export module {{serviceClass}} {
 {{#serviceOperations}}{{#operationParamsClass}}

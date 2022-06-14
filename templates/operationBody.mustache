@@ -1,10 +1,10 @@
-{{{operationComments}}}export async function {{operationName}}({{#operationIsFormData
+{{{operationComments}}}{{operationName}}({{#operationIsFormData
 }}formdata{{/operationIsFormData}}{{^operationIsFormData
 }}{{#operationParamsClass
   }}params: {{serviceClass}}.{{operationParamsClass}}{{/operationParamsClass}}{{^operationParamsClass
   }}{{#operationParameters}}{{paramVar}}{{^paramRequired}}?{{/paramRequired}}: {{{paramType
   }}}{{^paramIsLast}},
     {{/paramIsLast}}{{/operationParameters}}{{/operationParamsClass
-    }}{{/operationIsFormData}}): Promise<AxiosResponse<ICommonResponse<{{{operationResultType}}}>>> {
-    return $http.{{operationLowerMethod}}<ICommonResponse<{{{operationResultType}}}>>(`{{{operationPath}}}`{{>queryMulParams}}{{>querySingleParams}}{{>bodyParams}}{{>formDataParams}})
+    }}{{/operationIsFormData}}): Observable<ICommonResponse<{{{operationResultType}}}>> {
+    return this.http.{{operationLowerMethod}}<ICommonResponse<{{{operationResultType}}}>>(`{{{operationPath}}}`{{>queryMulParams}}{{>querySingleParams}}{{>bodyParams}}{{>formDataParams}})
   }

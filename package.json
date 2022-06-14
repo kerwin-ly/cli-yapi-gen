@@ -1,18 +1,22 @@
 {
-  "name": "cli-yapi-gen",
-  "version": "1.0.0",
+  "name": "ng-swagger-gen",
+  "version": "0.2.1",
   "license": "MIT",
   "author": "Cyclos development team",
   "description": "A Swagger 2.0 codegen for Angular",
   "private": false,
   "scripts": {
-    "dev": "npm link && cli-yapi-gen -i ./swaggerApi.json"
+    "dev": "npm link && ng-swagger-gen -i ./swaggerApi.json"
   },
   "keywords": [
     "angular",
     "swagger",
     "codegen"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyclosproject/ng-swagger-gen.git"
+  },
   "dependencies": {
     "argparse": "^1.0.10",
     "global-agent": "^2.1.8",
@@ -27,6 +31,6 @@
     "rxjs": ">=6.0.0"
   },
   "bin": {
-    "cli-yapi-gen": "./ng-swagger-gen"
+    "ng-swagger-gen": "./ng-swagger-gen"
   }
 }

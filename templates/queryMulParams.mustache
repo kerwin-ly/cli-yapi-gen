@@ -1,1 +1,1 @@
-{{#operationParamsClass}}{{#operationIsQuery}}, { params }{{/operationIsQuery}}{{/operationParamsClass}}
+{{#operationParamsClass}}{{#operationIsQuery}}, { params: this.getHttpParams(params) }{{/operationIsQuery}}{{/operationParamsClass}}

@@ -275,21 +275,8 @@ function doGenerate(swagger, options) {
 
   // Write the model index
   var modelIndexFile = path.join(output, "models.ts");
-
-  // 按models文件名来生成model的根文件，models.ts
-  var uniqModelFiles = {};
-  modelsArray.forEach((tempModel) => {
-    if (uniqModelFiles[tempModel.modelFile]) {
-      return;
-    }
-    uniqModelFiles[tempModel.modelFile] = tempModel;
-  });
   if (options.modelIndex !== false) {
-    generate(
-      templates.models,
-      { models: Object.values(uniqModelFiles) },
-      modelIndexFile
-    );
+    generate(templates.models, { models: modelsArray }, modelIndexFile);
   } else if (removeStaleFiles) {
     rmIfExists(modelIndexFile);
   }
@@ -345,52 +332,52 @@ function doGenerate(swagger, options) {
   }
 
   // Write the module
-  // var fullModuleFile = path.join(output, moduleFile + ".ts");
-  // if (options.apiModule !== false) {
-  //   generate(
-  //     templates.module,
-  //     applyGlobals({
-  //       services: servicesArray,
-  //     }),
-  //     fullModuleFile
-  //   );
-  // } else if (removeStaleFiles) {
-  //   rmIfExists(fullModuleFile);
-  // }
+  var fullModuleFile = path.join(output, moduleFile + ".ts");
+  if (options.apiModule !== false) {
+    generate(
+      templates.module,
+      applyGlobals({
+        services: servicesArray,
+      }),
+      fullModuleFile
+    );
+  } else if (removeStaleFiles) {
+    rmIfExists(fullModuleFile);
+  }
 
   // Write the configuration
-  // {
-  //   var rootUrl = "";
-  //   if (swagger.hasOwnProperty("host") && swagger.host !== "") {
-  //     var schemes = swagger.schemes || [];
-  //     var scheme = schemes.length === 0 ? "//" : schemes[0] + "://";
-  //     rootUrl = scheme + swagger.host;
-  //   }
-  //   if (
-  //     swagger.hasOwnProperty("basePath") &&
-  //     swagger.basePath !== "" &&
-  //     swagger.basePath !== "/"
-  //   ) {
-  //     rootUrl += swagger.basePath;
-  //   }
+  {
+    var rootUrl = "";
+    if (swagger.hasOwnProperty("host") && swagger.host !== "") {
+      var schemes = swagger.schemes || [];
+      var scheme = schemes.length === 0 ? "//" : schemes[0] + "://";
+      rootUrl = scheme + swagger.host;
+    }
+    if (
+      swagger.hasOwnProperty("basePath") &&
+      swagger.basePath !== "" &&
+      swagger.basePath !== "/"
+    ) {
+      rootUrl += swagger.basePath;
+    }
 
-  //   generate(
-  //     templates.configuration,
-  //     applyGlobals({
-  //       rootUrl: rootUrl,
-  //     }),
-  //     path.join(output, configurationFile + ".ts")
-  //   );
-  // }
+    generate(
+      templates.configuration,
+      applyGlobals({
+        rootUrl: rootUrl,
+      }),
+      path.join(output, configurationFile + ".ts")
+    );
+  }
 
   // Write the BaseService
-  // {
-  //   generate(
-  //     templates.baseService,
-  //     applyGlobals({}),
-  //     path.join(output, "base-service.ts")
-  //   );
-  // }
+  {
+    generate(
+      templates.baseService,
+      applyGlobals({}),
+      path.join(output, "base-service.ts")
+    );
+  }
 }
 
 function normalizeModelName(name) {
@@ -1386,6 +1373,7 @@ function processServices(swagger, models, options) {
         }
         return false;
       }
+      console.log("params class", paramsClass);
       var operation = {
         operationName: getOperationName(id),
         operationParamsClass: paramsClass,
