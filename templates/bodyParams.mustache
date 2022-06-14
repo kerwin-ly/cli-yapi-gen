@@ -1,0 +1,1 @@
+{{#operationIsBody}}{{#hasOperationParameters}}, {{#operationParamsClass}}params.params{{/operationParamsClass}}{{^operationParamsClass}}{{#operationParameters}}{{ paramVar }}{{/operationParameters}}{{/operationParamsClass}}{{/hasOperationParameters}}{{^hasOperationParameters}}, {}{{/hasOperationParameters}}{{/operationIsBody}}
